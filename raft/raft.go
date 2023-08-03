@@ -303,6 +303,8 @@ func Make(peers []*client.Client, me int,
 	go rf.ticker()
 	go rf.applier()
 
+	rf.setInit()
+
 	return rf
 }
 

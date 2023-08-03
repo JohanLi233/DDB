@@ -33,9 +33,17 @@ func (rf *Raft) Init(args *InitArgs, reply *InitReply) error {
 
 func (rf *Raft) setInit() {
 	for peer := range rf.peers {
+		if peer == rf.me {
+			continue
+		}
 		args := InitArgs{}
 		reply := InitReply{}
 		args.Client = rf.peers
 		rf.peers[peer].Call("Raft.Init", args, reply)
+		for _, peer := range args.Client {
+			if !rf.containPeer(peer) {
+				rf.peers = append(rf.peers, peer)
+			}
+		}
 	}
 }
