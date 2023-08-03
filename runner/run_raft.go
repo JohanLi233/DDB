@@ -11,9 +11,9 @@ import (
 
 func main() {
 	clients := []*client.Client{}
-	cl1 := client.MakeClient("192.168.0.7")
+	cl1 := client.MakeClient("192.168.0.109")
 	clients = append(clients, cl1)
-	// cl2 := client.MakeClient("192.168.0.109")
+	// cl2 := client.MakeClient("192.168.0.7")
 	// clients = append(clients, cl2)
 	persister := raft.MakePersister()
 	me := 0
