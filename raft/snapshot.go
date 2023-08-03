@@ -19,16 +19,16 @@ type InstallSnapshotReply struct {
 	CaughtUp bool
 }
 
-func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapshotReply) {
+func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapshotReply) error {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	reply.Term = rf.currentTerm
 	if args.Term < rf.currentTerm {
-		return
+		return nil
 	}
 	if args.LastIncludedIndex <= rf.commitIndex {
 		reply.CaughtUp = true
-		return
+		return nil
 	}
 	rf.becomeFollower(args.Term)
 
@@ -49,6 +49,7 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 		SnapshotIndex: args.LastIncludedIndex,
 	}
 	rf.ch <- msg
+	return nil
 }
 
 func (rf *Raft) sendInstallSnapshot(server int) {

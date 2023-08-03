@@ -23,14 +23,14 @@ type AppendEntriesReply struct {
 }
 
 // example RequestVote RPC handler.
-func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
+func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) error {
 	// Your code here (2A, 2B).
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	reply.Term = rf.currentTerm
 	reply.Success = false
 	if args.Term < rf.currentTerm {
-		return
+		return nil
 	}
 	if args.Term > rf.currentTerm {
 		rf.becomeFollower(args.Term)
@@ -45,7 +45,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		reply.XTerm = -1
 		reply.XIndex = -1
 		reply.XLen = len(rf.log.Entries)
-		return
+		return nil
 	}
 
 	if args.PrevLogIndex > rf.log.FirstIndex &&
@@ -64,7 +64,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		}
 		reply.XTerm = xTerm
 		reply.XLen = len(rf.log.Entries)
-		return
+		return nil
 	}
 
 	for idx, entry := range args.Entries {
@@ -84,6 +84,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		rf.apply()
 	}
 	reply.Success = true
+	return nil
 }
 
 func (rf *Raft) sendAppendEntries(

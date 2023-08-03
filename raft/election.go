@@ -24,13 +24,13 @@ type RequestVoteReply struct {
 }
 
 // example RequestVote RPC handler.
-func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
+func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) error {
 	// Your code here (2A, 2B).
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	reply.VoteGranted = false
 	if args.Term < rf.currentTerm {
-		return
+		return nil
 	}
 	if args.Term > rf.currentTerm {
 		rf.becomeFollower(args.Term)
@@ -49,6 +49,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		rf.persist()
 	}
 
+	return nil
 }
 
 func (rf *Raft) sendRequestVote(
