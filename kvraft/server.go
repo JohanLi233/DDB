@@ -3,6 +3,7 @@ package kvraft
 import (
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"6.5840/client"
 	"6.5840/labgob"
@@ -27,7 +28,7 @@ type KVServer struct {
 	notifier map[int64]*Notifier
 }
 
-func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
+func (kv *KVServer) Get(args *GetArgs, reply *GetReply) error {
 	// Your code here.
 	op := Op{}
 	op.ClerkId = args.ClerkId
@@ -37,9 +38,10 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 	err, value := kv.waitApply(&op)
 	reply.Value = value
 	reply.Err = err
+	return nil
 }
 
-func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
+func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) error {
 	// Your code here.
 	op := Op{}
 	op.ClerkId = args.ClerkId
@@ -49,6 +51,7 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	op.Type = args.Op
 	err, _ := kv.waitApply(&op)
 	reply.Err = err
+	return nil
 }
 
 func StartKVServer(
