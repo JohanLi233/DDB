@@ -20,6 +20,13 @@ func main() {
 	client := kvraft.MakeClerk(clients)
 	if os.Args[1] == "get" {
 		get(*client, os.Args[2])
+	} else if os.Args[1] == "put" {
+
+	} else if os.Args[1] == "append" {
+
+	} else {
+		fmt.Println("Unknown operation")
+		os.Exit(1)
 	}
 
 }
