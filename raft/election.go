@@ -1,7 +1,6 @@
 package raft
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -35,7 +34,6 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) erro
 	if args.Term > rf.currentTerm {
 		rf.becomeFollower(args.Term)
 	}
-	fmt.Println("vote")
 
 	reply.Term = rf.currentTerm
 	lastLog := rf.log.lastEntry()
@@ -106,7 +104,6 @@ func (rf *Raft) candidateRequestVote(votes *int) {
 }
 
 func (rf *Raft) startElection() {
-	fmt.Println("1")
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	votes := 1

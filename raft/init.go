@@ -29,6 +29,7 @@ func (rf *Raft) Init(args *InitArgs, reply *InitReply) error {
 			rf.peers = append(rf.peers, peer)
 		}
 	}
+	fmt.Println("received")
 	reply.Client = rf.peers
 	return nil
 }
