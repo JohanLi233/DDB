@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
 	"6.5840/client"
@@ -17,11 +16,8 @@ func main() {
 	clients = append(clients, cl2)
 	persister := raft.MakePersister()
 	me := 1
-	kvrf := kvraft.StartKVServer(clients, me, persister, -1)
-	fmt.Println(kvrf)
-	client := kvraft.MakeClerk(clients)
-	fmt.Println(client)
-	client.Put("Jaha", "the best")
-	fmt.Println(client.Get("Jaha"))
-	time.Sleep(100 * time.Hour)
+	kv := kvraft.StartKVServer(clients, me, persister, -1)
+	for !kv.Killed() {
+		time.Sleep(100 * time.Minute)
+	}
 }

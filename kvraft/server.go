@@ -119,7 +119,7 @@ func (kv *KVServer) Kill() {
 	// Your code here, if desired.
 }
 
-func (kv *KVServer) killed() bool {
+func (kv *KVServer) Killed() bool {
 	z := atomic.LoadInt32(&kv.dead)
 	return z == 1
 }
