@@ -54,7 +54,7 @@ func (kv *KVServer) getNotifier(op *Op, forced bool) *Notifier {
 func (kv *KVServer) wait(op *Op) {
 	// warning: we could only use `notifier.done.Wait` but there's a risk of spurious wakeup or
 	// wakeup by stale ops.
-	for !kv.killed() {
+	for !kv.Killed() {
 		if notifier := kv.getNotifier(op, false); notifier != nil {
 			notifier.done.Wait()
 		} else {

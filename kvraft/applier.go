@@ -2,7 +2,7 @@ package kvraft
 
 func (kv *KVServer) applier() {
 	for m := range kv.applyCh {
-		if kv.killed() {
+		if kv.Killed() {
 			return
 		}
 		kv.mu.Lock()
