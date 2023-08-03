@@ -47,7 +47,6 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) error {
 
 func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) error {
 	// Your code here.
-	fmt.Println("?")
 	op := Op{}
 	op.ClerkId = args.ClerkId
 	op.OpId = args.OpId
