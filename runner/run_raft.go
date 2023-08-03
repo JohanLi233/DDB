@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"6.5840/client"
 	"6.5840/kvraft"
@@ -22,4 +23,5 @@ func main() {
 	// fmt.Println(client)
 	// client.Put("Jaha", "the best")
 	// fmt.Println(client.Get("Jaha"))
+	time.Sleep(100 * time.Hour)
 }
