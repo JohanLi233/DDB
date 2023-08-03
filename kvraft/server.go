@@ -3,7 +3,6 @@ package kvraft
 import (
 	"sync"
 	"sync/atomic"
-	"time"
 
 	"6.5840/client"
 	"6.5840/labgob"
