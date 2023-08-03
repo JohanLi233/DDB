@@ -31,7 +31,7 @@ func main() {
 			fmt.Println("Need value")
 			os.Exit(1)
 		}
-		put(*client, os.Args[2], os.Args[3])
+		kvAppend(*client, os.Args[2], os.Args[3])
 	} else {
 		fmt.Println("Unknown operation")
 		os.Exit(1)
@@ -40,11 +40,11 @@ func main() {
 }
 
 func kvAppend(client kvraft.Clerk, key string, value string) {
-	client.PutAppend(key, value, "append")
+	client.PutAppend(key, value, "Append")
 }
 
 func put(client kvraft.Clerk, key string, value string) {
-	client.PutAppend(key, value, "put")
+	client.PutAppend(key, value, "Put")
 }
 
 func get(client kvraft.Clerk, key string) string {
