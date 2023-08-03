@@ -1,8 +1,6 @@
 package raft
 
 import (
-	"fmt"
-
 	"6.5840/client"
 )
 
@@ -49,9 +47,5 @@ func (rf *Raft) setInit() {
 				rf.peers = append(rf.peers, peer)
 			}
 		}
-	}
-	fmt.Println("complete")
-	for peer := range rf.peers {
-		fmt.Println(rf.peers[peer].Ip)
 	}
 }

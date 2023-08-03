@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"6.5840/client"
 	"6.5840/kvraft"
@@ -19,5 +18,8 @@ func main() {
 	me := 0
 	kvrf := kvraft.StartKVServer(clients, me, persister, -1)
 	fmt.Println(kvrf)
-	time.Sleep(100 * time.Second)
+	// client := kvraft.MakeClerk(clients)
+	// fmt.Println(client)
+	// client.Put("Jaha", "the best")
+	// fmt.Println(client.Get("Jaha"))
 }

@@ -4,11 +4,11 @@ import (
 	"crypto/rand"
 	"math/big"
 
-	"6.5840/labrpc"
+	"6.5840/client"
 )
 
 type Clerk struct {
-	servers []*labrpc.ClientEnd
+	servers []*client.Client
 	// You will have to modify this struct.
 	id     int64
 	leader int
@@ -22,7 +22,7 @@ func nrand() int64 {
 	return x
 }
 
-func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
+func MakeClerk(servers []*client.Client) *Clerk {
 	ck := new(Clerk)
 	ck.servers = servers
 	// You'll have to add code here.
