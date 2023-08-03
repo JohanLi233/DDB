@@ -21,9 +21,17 @@ func main() {
 	if os.Args[1] == "get" {
 		get(*client, os.Args[2])
 	} else if os.Args[1] == "put" {
-
+		if len(os.Args) < 4 {
+			fmt.Println("Need value")
+			os.Exit(1)
+		}
+		put(*client, os.Args[2], os.Args[3])
 	} else if os.Args[1] == "append" {
-
+		if len(os.Args) < 4 {
+			fmt.Println("Need value")
+			os.Exit(1)
+		}
+		put(*client, os.Args[2], os.Args[3])
 	} else {
 		fmt.Println("Unknown operation")
 		os.Exit(1)
@@ -31,8 +39,12 @@ func main() {
 
 }
 
-func put(client kvraft.Clerk, key string, value string) {
+func kvAppend(client kvraft.Clerk, key string, value string) {
+	client.PutAppend(key, value, "append")
+}
 
+func put(client kvraft.Clerk, key string, value string) {
+	client.PutAppend(key, value, "put")
 }
 
 func get(client kvraft.Clerk, key string) string {
@@ -43,10 +55,6 @@ func get(client kvraft.Clerk, key string) string {
 	}
 	fmt.Println(value)
 	return value
-}
-
-func kvAppend(client kvraft.Clerk, key string, value string) {
-
 }
 
 func writeToFile(client kvraft.Clerk, key string, fileName string) {}
