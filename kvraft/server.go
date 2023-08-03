@@ -93,13 +93,16 @@ func StartKVServer(
 
 	go kv.applier()
 
-	kv.server()
+	kv.server(kv.rf)
 
 	return kv
 }
 
-func (kvrf *KVServer) server() {
+func (kvrf *KVServer) server(rf *raft.Raft) {
 	if rpc.Register(kvrf) != nil {
+		fmt.Println("Error")
+	}
+	if rpc.Register(rf) != nil {
 		fmt.Println("Error")
 	}
 	rpc.HandleHTTP()
