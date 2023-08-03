@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"6.5840/client"
@@ -17,6 +18,7 @@ func main() {
 	persister := raft.MakePersister()
 	me := 1
 	kv := kvraft.StartKVServer(clients, me, persister, -1)
+	fmt.Println("ok")
 	for !kv.Killed() {
 		time.Sleep(100 * time.Minute)
 	}
