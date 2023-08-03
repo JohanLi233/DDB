@@ -1,7 +1,6 @@
 package raft
 
 import (
-	"strconv"
 	"time"
 )
 
