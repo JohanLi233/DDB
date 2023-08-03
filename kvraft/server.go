@@ -1,8 +1,13 @@
 package kvraft
 
 import (
+	"fmt"
 	"sync"
 	"sync/atomic"
+
+	"net"
+	"net/http"
+	"net/rpc"
 
 	"6.5840/client"
 	"6.5840/labgob"
@@ -42,6 +47,7 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) error {
 
 func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) error {
 	// Your code here.
+	fmt.Println("?")
 	op := Op{}
 	op.ClerkId = args.ClerkId
 	op.OpId = args.OpId
@@ -89,6 +95,18 @@ func StartKVServer(
 	go kv.applier()
 
 	return kv
+}
+
+func (rf *KVServer) server() {
+	if rpc.Register(rf) != nil {
+		fmt.Println("Error")
+	}
+	rpc.HandleHTTP()
+	l, e := net.Listen("tcp", ":1234")
+	if e != nil {
+		fmt.Println(e)
+	}
+	go http.Serve(l, nil)
 }
 
 func (kv *KVServer) Kill() {
