@@ -17,7 +17,6 @@ func main() {
 	// clients = append(clients, cl2)
 	persister := raft.MakePersister()
 	me := 0
-	time.Sleep(1 * time.Second)
 	kvrf := kvraft.StartKVServer(clients, me, persister, -1)
 	fmt.Println(kvrf)
 	time.Sleep(100 * time.Second)
