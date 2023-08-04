@@ -28,7 +28,7 @@ func main() {
 	op.put("1", string(content))
 	op.put("2", string(content))
 	op.put("3", string(content))
-	// op.put("4", string(content)+string(content))
+	op.put("4", string(content)+string(content))
 	op.put(
 		"0",
 		"0",
