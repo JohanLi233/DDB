@@ -85,6 +85,7 @@ func StartKVServer(
 		kv.ingestSnapshot(kv.persister.ReadSnapshot())
 
 	} else {
+		kv.db = make(map[string]string)
 		kv.maxApplied = make(map[int64]int)
 	}
 
