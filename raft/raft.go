@@ -19,10 +19,6 @@ package raft
 
 import (
 	"bytes"
-	"fmt"
-	"net"
-	"net/http"
-	"net/rpc"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -330,16 +326,4 @@ func (rf *Raft) applier() {
 			rf.applyCond.Wait()
 		}
 	}
-}
-
-func (rf *Raft) server() {
-	if rpc.Register(rf) != nil {
-		fmt.Println("Error")
-	}
-	rpc.HandleHTTP()
-	l, e := net.Listen("tcp", ":1234")
-	if e != nil {
-		fmt.Println(e)
-	}
-	go http.Serve(l, nil)
 }
