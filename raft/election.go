@@ -84,7 +84,7 @@ func (rf *Raft) sendRequestVote(
 		rf.state = Leader
 		fmt.Println(rf.me)
 		rf.heartBeatTimer.Stop()
-		rf.heartBeatTimer.Reset(10 * time.Millisecond)
+		rf.heartBeatTimer.Reset(100 * time.Millisecond)
 		rf.leaderAppendEntries()
 	}
 }

@@ -242,7 +242,7 @@ func (rf *Raft) ticker() {
 			if rf.state == Leader {
 				rf.leaderAppendEntries()
 				rf.heartBeatTimer.Stop()
-				rf.heartBeatTimer.Reset(10 * time.Millisecond)
+				rf.heartBeatTimer.Reset(100 * time.Millisecond)
 			}
 			rf.mu.Unlock()
 		}
