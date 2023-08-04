@@ -3,12 +3,9 @@ package kvraft
 import (
 	"crypto/rand"
 	"math/big"
-	"time"
 
 	"DDB/client"
 )
-
-const retryInterval = 100 * time.Millisecond
 
 type Clerk struct {
 	servers []*client.Client
@@ -58,7 +55,6 @@ func (ck *Clerk) Get(key string) string {
 				}
 			}
 		}
-		time.Sleep(retryInterval)
 	}
 }
 
@@ -81,7 +77,6 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 				}
 			}
 		}
-		time.Sleep(retryInterval)
 	}
 }
 
