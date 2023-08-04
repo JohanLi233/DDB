@@ -1,8 +1,8 @@
 package main
 
 import (
-	"6.5840/client"
-	"6.5840/kvraft"
+	"DDB/client"
+	"DDB/kvraft"
 	"bufio"
 	"fmt"
 	"os"

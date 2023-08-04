@@ -1,7 +1,7 @@
 package raft
 
 import (
-	"6.5840/client"
+	"DDB/client"
 )
 
 type InitArgs struct {

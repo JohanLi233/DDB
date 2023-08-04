@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"6.5840/client"
-	"6.5840/kvraft"
-	"6.5840/raft"
+	"DDB/client"
+	"DDB/kvraft"
+	"DDB/raft"
 )
 
 func main() {

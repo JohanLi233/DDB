@@ -9,10 +9,10 @@ import (
 	"net/http"
 	"net/rpc"
 
-	"6.5840/client"
-	"6.5840/labgob"
+	"DDB/client"
+	"DDB/labgob"
 
-	"6.5840/raft"
+	"DDB/raft"
 )
 
 type KVServer struct {

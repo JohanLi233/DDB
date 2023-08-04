@@ -27,8 +27,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"6.5840/client"
-	"6.5840/labgob"
+	"DDB/client"
+	"DDB/labgob"
 )
 
 // as each Raft peer becomes aware that successive log entries are

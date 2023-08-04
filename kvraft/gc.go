@@ -1,7 +1,7 @@
 package kvraft
 
 import (
-	"6.5840/labgob"
+	"DDB/labgob"
 	"bytes"
 )
 
