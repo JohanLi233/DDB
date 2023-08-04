@@ -12,7 +12,8 @@ import (
 	"DDB/client"
 	"DDB/labgob"
 	"DDB/raft"
-	// "DDB/map"
+
+	"DDB/map"
 )
 
 type KVServer struct {
@@ -28,8 +29,8 @@ type KVServer struct {
 	gc           bool
 
 	// Your definitions here.
-	db map[string]string
-	// db       btree.Map[string, string]
+	// db       map[string]string
+	db       btree.Map[string, string]
 	notifier map[int64]*Notifier
 }
 
@@ -85,7 +86,6 @@ func StartKVServer(
 		kv.ingestSnapshot(kv.persister.ReadSnapshot())
 
 	} else {
-		kv.db = make(map[string]string)
 		kv.maxApplied = make(map[int64]int)
 	}
 
