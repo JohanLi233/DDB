@@ -4,7 +4,7 @@ import "fmt"
 
 func (kv *KVServer) applier() {
 	for m := range kv.applyCh {
-		fmt.Println(m)
+		fmt.Println(m.Command)
 		if kv.Killed() {
 			return
 		}
