@@ -30,7 +30,7 @@ func main() {
 				fmt.Println("need value")
 				continue
 			}
-			op.get(texts[1])
+			fmt.Println(op.get(texts[1]))
 		} else if texts[0] == "put" {
 			if len(texts) < 3 {
 				fmt.Println("need value")
@@ -67,8 +67,11 @@ func (op *Operator) get(key string) string {
 		fmt.Println("\"\"")
 		return value
 	}
-	fmt.Println(value)
 	return value
 }
 
-func (op *Operator) writeToFile(key string, fileName string) {}
+func (op *Operator) writeToFile(key string) {
+	file, _ := os.Create(key)
+	file.WriteString(op.get(key))
+	file.Close()
+}
