@@ -68,7 +68,8 @@ func (kv *KVServer) waitApply(op *Op) (Err, string) {
 		value := ""
 		if op.Type == "Get" {
 			// note: the default value, i.e. an empty string, is returned if the key does not exist.
-			value, _ = kv.db.Get(op.Key)
+			// value, _ = kv.db.Get(op.Key)
+			value = kv.db[op.Key]
 		}
 		return OK, value
 	}
