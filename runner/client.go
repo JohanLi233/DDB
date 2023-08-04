@@ -3,52 +3,66 @@ package main
 import (
 	"6.5840/client"
 	"6.5840/kvraft"
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
-	if len(os.Args) < 3 {
-		fmt.Fprintf(os.Stderr, "Usage: operation + value + key\n")
-		os.Exit(1)
-	}
 	clients := []*client.Client{}
 	cl1 := client.MakeClient("192.168.0.109")
 	clients = append(clients, cl1)
 	cl2 := client.MakeClient("192.168.0.7")
 	clients = append(clients, cl2)
 	client := kvraft.MakeClerk(clients)
-	if os.Args[1] == "get" {
-		get(*client, os.Args[2])
-	} else if os.Args[1] == "put" {
-		if len(os.Args) < 4 {
-			fmt.Println("Need value")
-			os.Exit(1)
+	op := Operator{}
+	op.client = client
+	reader := bufio.NewReader(os.Stdin)
+	for {
+		fmt.Println("-> ")
+		text, _ := reader.ReadString('\n')
+		// convert CRLF to LF
+		text = strings.Replace(text, "\n", "", -1)
+		texts := strings.Split(text, " ")
+		if texts[0] == "get" {
+			if len(texts) < 2 {
+				fmt.Println("need value")
+				continue
+			}
+			op.get(texts[1])
+		} else if texts[0] == "put" {
+			if len(texts) < 3 {
+				fmt.Println("need value")
+				continue
+			}
+			op.put(texts[1], texts[2])
+		} else if texts[0] == "append" {
+			if len(texts) < 3 {
+				fmt.Println("need value")
+				continue
+			}
+			op.append(texts[1], texts[2])
+		} else {
+			fmt.Println("unknown operation")
 		}
-		put(*client, os.Args[2], os.Args[3])
-	} else if os.Args[1] == "append" {
-		if len(os.Args) < 4 {
-			fmt.Println("Need value")
-			os.Exit(1)
-		}
-		kvAppend(*client, os.Args[2], os.Args[3])
-	} else {
-		fmt.Println("Unknown operation")
-		os.Exit(1)
 	}
-
 }
 
-func kvAppend(client kvraft.Clerk, key string, value string) {
-	client.PutAppend(key, value, "Append")
+type Operator struct {
+	client *kvraft.Clerk
 }
 
-func put(client kvraft.Clerk, key string, value string) {
-	client.PutAppend(key, value, "Put")
+func (op *Operator) append(key string, value string) {
+	op.client.PutAppend(key, value, "Append")
 }
 
-func get(client kvraft.Clerk, key string) string {
-	value := client.Get(key)
+func (op *Operator) put(key string, value string) {
+	op.client.PutAppend(key, value, "Put")
+}
+
+func (op *Operator) get(key string) string {
+	value := op.client.Get(key)
 	if value == "" {
 		fmt.Println("\"\"")
 		return value
@@ -57,4 +71,4 @@ func get(client kvraft.Clerk, key string) string {
 	return value
 }
 
-func writeToFile(client kvraft.Clerk, key string, fileName string) {}
+func (op *Operator) writeToFile(key string, fileName string) {}

@@ -16,7 +16,7 @@ func main() {
 	cl2 := client.MakeClient("192.168.0.7")
 	clients = append(clients, cl2)
 	persister := raft.MakePersister()
-	me := 1
+	me := 0
 	kv := kvraft.StartKVServer(clients, me, persister, -1)
 	fmt.Println("ok")
 	for !kv.Killed() {

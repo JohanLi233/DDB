@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	"net/rpc"
 )
 
@@ -19,7 +18,7 @@ func (cl *Client) Call(rpcname string, args interface{}, reply interface{}) bool
 	address := cl.Ip + ":1234"
 	c, err := rpc.DialHTTP("tcp", address)
 	if err != nil {
-		fmt.Println(err)
+		return false
 	}
 	defer c.Close()
 
