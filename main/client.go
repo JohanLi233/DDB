@@ -43,6 +43,12 @@ func main() {
 				continue
 			}
 			op.append(texts[1], texts[2])
+		} else if texts[0] == "write" {
+			if len(texts) < 2 {
+				fmt.Println("need value")
+				continue
+			}
+			op.writeToFile(texts[1])
 		} else {
 			fmt.Println("unknown operation")
 		}
