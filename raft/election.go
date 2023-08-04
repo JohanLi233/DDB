@@ -1,6 +1,7 @@
 package raft
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -81,6 +82,7 @@ func (rf *Raft) sendRequestVote(
 			rf.nextIndex[peer] = lastLogIndex
 		}
 		rf.state = Leader
+		fmt.Println(rf.me)
 		rf.heartBeatTimer.Stop()
 		rf.heartBeatTimer.Reset(10 * time.Millisecond)
 		rf.leaderAppendEntries()
