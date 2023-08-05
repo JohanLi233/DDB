@@ -44,7 +44,7 @@ type Operator struct {
 
 func (op *Operator) append(key string, value string) {
 	op.client.PutAppend(key, value, "Append")
-	time.Sleep(20 * time.Millisecond)
+	time.Sleep(50 * time.Millisecond)
 }
 
 func (op *Operator) put(key string, value string) {
