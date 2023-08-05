@@ -49,6 +49,7 @@ func (kv *KVServer) apply(op *Op) {
 		kv.db.Set(op.Key, op.Value+previous)
 	}
 	kv.maxApplied[op.ClerkId] = op.OpId
+	kv.notify(op)
 }
 
 func (kv *KVServer) waitApply(op *Op) (Err, string) {
