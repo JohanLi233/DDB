@@ -42,11 +42,14 @@ func (kv *KVServer) apply(op *Op) {
 	case "Get":
 
 	case "Put":
-		kv.db.Set(op.Key, op.Value)
+		// kv.db.Set(op.Key, op.Value)
+		kv.db[op.Key] = op.Value
 
 	case "Append":
-		previous, _ := kv.db.Get(op.Key)
-		kv.db.Set(op.Key, op.Value+previous)
+		// previous, _ := kv.db.Get(op.Key)
+		// kv.db.Set(op.Key, op.Value+previous)
+		kv.db[op.Key] += op.Value
+
 	}
 	kv.maxApplied[op.ClerkId] = op.OpId
 	kv.notify(op)
@@ -70,7 +73,8 @@ func (kv *KVServer) waitApply(op *Op) (Err, string) {
 		value := ""
 		if op.Type == "Get" {
 			// note: the default value, i.e. an empty string, is returned if the key does not exist.
-			value, _ = kv.db.Get(op.Key)
+			// value, _ = kv.db.Get(op.Key)
+			value = kv.db[op.Key]
 		}
 		return OK, value
 	}
