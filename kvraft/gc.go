@@ -24,10 +24,10 @@ func (kv *KVServer) ingestSnapshot(snapshot []byte) {
 
 func (kv *KVServer) makeSnapshot() []byte {
 	w := new(bytes.Buffer)
-	e := labgob.NewEncoder(w)
-	if e.Encode(kv.db) != nil || e.Encode(kv.maxApplied) != nil {
-		panic("failed to encode some fields")
-	}
+	// e := labgob.NewEncoder(w)
+	// if e.Encode(kv.db) != nil || e.Encode(kv.maxApplied) != nil {
+	// 	panic("failed to encode some fields")
+	// }
 	return w.Bytes()
 }
 

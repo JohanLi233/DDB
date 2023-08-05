@@ -101,22 +101,22 @@ func (rf *Raft) GetState() (int, bool) {
 // (or nil if there's not yet a snapshot).
 func (rf *Raft) persist() {
 	w := new(bytes.Buffer)
-	e := labgob.NewEncoder(w)
-	if e.Encode(rf.currentTerm) != nil {
-		return
-	}
-	if e.Encode(rf.votedFor) != nil {
-		return
-	}
-	if e.Encode(rf.log) != nil {
-		return
-	}
-	if e.Encode(rf.snapshot.Index) != nil {
-		return
-	}
-	if e.Encode(rf.snapshot.Term) != nil {
-		return
-	}
+	// e := labgob.NewEncoder(w)
+	// if e.Encode(rf.currentTerm) != nil {
+	// 	return
+	// }
+	// if e.Encode(rf.votedFor) != nil {
+	// 	return
+	// }
+	// if e.Encode(rf.log) != nil {
+	// 	return
+	// }
+	// if e.Encode(rf.snapshot.Index) != nil {
+	// 	return
+	// }
+	// if e.Encode(rf.snapshot.Term) != nil {
+	// 	return
+	// }
 	raftstate := w.Bytes()
 	rf.persister.Save(raftstate, rf.snapshot.Data)
 }
