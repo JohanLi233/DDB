@@ -293,7 +293,6 @@ func Make(peers []*client.Client, me int,
 
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
-	// rf.server()
 
 	// start ticker goroutine to start elections
 	go rf.ticker()

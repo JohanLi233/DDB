@@ -1,7 +1,5 @@
 package raft
 
-import "fmt"
-
 type Snapshot struct {
 	Term  int
 	Index int
@@ -50,7 +48,6 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 		SnapshotTerm:  args.LastIncludedTerm,
 		SnapshotIndex: args.LastIncludedIndex,
 	}
-	fmt.Println(">>>>>>>>>>")
 	rf.ch <- msg
 	return nil
 }
