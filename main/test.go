@@ -29,10 +29,10 @@ func main() {
 	op.put("2", string(content))
 	op.put("3", string(content))
 	// op.put("4", string(content)+string(content)+string(content)+string(content)+string(content))
-	op.put(
-		"0",
-		"0",
-	)
+	// op.put(
+	// 	"0",
+	// 	"0",
+	// )
 }
 
 type Operator struct {

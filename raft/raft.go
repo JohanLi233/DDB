@@ -19,6 +19,7 @@ package raft
 
 import (
 	"bytes"
+	"fmt"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -319,6 +320,8 @@ func (rf *Raft) applier() {
 				CommandIndex: rf.log.at(rf.lastApplied).Index,
 			}
 			rf.mu.Unlock()
+			fmt.Println("raft")
+			fmt.Println(msg.CommandIndex)
 			rf.ch <- msg
 			rf.mu.Lock()
 		} else {
