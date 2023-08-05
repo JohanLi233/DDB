@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 )
 
 func main() {
@@ -43,11 +44,13 @@ type Operator struct {
 
 func (op *Operator) append(key string, value string) {
 	op.client.PutAppend(key, value, "Append")
+	time.Sleep(20 * time.Millisecond)
 }
 
 func (op *Operator) put(key string, value string) {
 	fmt.Println(len(value))
 	op.client.PutAppend(key, value, "Put")
+	time.Sleep(20 * time.Millisecond)
 }
 
 func (op *Operator) get(key string) string {
