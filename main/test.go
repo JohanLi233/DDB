@@ -50,7 +50,7 @@ func (op *Operator) append(key string, value string) {
 func (op *Operator) put(key string, value string) {
 	fmt.Println(len(value))
 	op.client.PutAppend(key, value, "Put")
-	time.Sleep(20 * time.Millisecond)
+	time.Sleep(100 * time.Millisecond)
 }
 
 func (op *Operator) get(key string) string {
