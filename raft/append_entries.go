@@ -130,12 +130,10 @@ func (rf *Raft) sendAppendEntries(
 
 func (rf *Raft) leaderAppendEntries() {
 	rf.resetElection()
-	fmt.Println("reset leader")
 	lastLog := rf.log.lastEntry()
 	for peer := range rf.peers {
 		if rf.me == peer {
 			rf.resetElection()
-			fmt.Println("reset leader")
 			continue
 		}
 		nextIndex := rf.nextIndex[peer]
