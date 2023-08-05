@@ -27,6 +27,7 @@ type AppendEntriesReply struct {
 // example RequestVote RPC handler.
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) error {
 	// Your code here (2A, 2B).
+	fmt.Println("receive append")
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	reply.Term = rf.currentTerm
