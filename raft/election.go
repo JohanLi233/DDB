@@ -1,6 +1,7 @@
 package raft
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -82,6 +83,7 @@ func (rf *Raft) sendRequestVote(
 		}
 		rf.state = Leader
 		rf.heartBeatTimer.Stop()
+		fmt.Println("I am the leader")
 		rf.heartBeatTimer.Reset(100 * time.Millisecond)
 		rf.leaderAppendEntries()
 	}

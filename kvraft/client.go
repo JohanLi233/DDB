@@ -69,9 +69,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args.ClerkId = ck.id
 	for {
 		for i := range ck.servers {
-			fmt.Println(args.Op)
 			fmt.Println(args.Key)
-			fmt.Println(ck.leader)
 			serverId := (ck.leader + i) % len(ck.servers)
 			reply := PutAppendReply{}
 			ok := ck.servers[serverId].Call("KVServer.PutAppend", &args, &reply)
