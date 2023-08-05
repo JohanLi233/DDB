@@ -39,7 +39,6 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		rf.becomeFollower(args.Term)
 	}
 	rf.resetElection()
-	fmt.Println("reset peer")
 	if rf.state == Candidate {
 		rf.state = Follower
 	}
