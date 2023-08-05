@@ -99,6 +99,7 @@ func (rf *Raft) sendAppendEntries(
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	if !ok {
+		go rf.sendAppendEntries(server, args, reply)
 		return
 	}
 	if args.Term == rf.currentTerm {
