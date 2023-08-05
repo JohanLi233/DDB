@@ -129,6 +129,7 @@ func (rf *Raft) leaderAppendEntries() {
 	lastLog := rf.log.lastEntry()
 	for peer := range rf.peers {
 		if rf.me == peer {
+			rf.resetElection()
 			continue
 		}
 		nextIndex := rf.nextIndex[peer]
