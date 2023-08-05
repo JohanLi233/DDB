@@ -10,7 +10,8 @@ const GCRatio = 0.8
 
 func (kv *KVServer) approachGCLimit() bool {
 	// note: persister has its own mutex and hence no race would be raised with raft.
-	return float32(kv.persister.RaftStateSize()) > GCRatio*float32(kv.maxraftstate)
+	return true
+	// return float32(kv.persister.RaftStateSize()) > GCRatio*float32(kv.maxraftstate)
 }
 
 func (kv *KVServer) ingestSnapshot(snapshot []byte) {
