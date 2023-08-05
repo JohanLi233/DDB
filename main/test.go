@@ -28,9 +28,9 @@ func main() {
 	}
 	file.Close()
 	op.put(file.Name(), string(content))
-	op.put("1", string(content))
-	op.put("2", string(content))
-	op.put("3", string(content))
+	// op.put("1", string(content))
+	// op.put("2", string(content))
+	// op.put("3", string(content))
 	// op.put("4", string(content)+string(content)+string(content)+string(content)+string(content))
 	op.put(
 		"0",
@@ -44,13 +44,13 @@ type Operator struct {
 
 func (op *Operator) append(key string, value string) {
 	op.client.PutAppend(key, value, "Append")
-	time.Sleep(50 * time.Millisecond)
+	time.Sleep(10 * time.Millisecond)
 }
 
 func (op *Operator) put(key string, value string) {
 	fmt.Println(len(value))
 	op.client.PutAppend(key, value, "Put")
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(50 * time.Millisecond)
 }
 
 func (op *Operator) get(key string) string {
