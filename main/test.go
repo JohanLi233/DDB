@@ -3,8 +3,9 @@ package main
 import (
 	"DDB/client"
 	"DDB/kvraft"
-	"bytes"
 	"fmt"
+	"time"
+
 	"io"
 	"os"
 )
@@ -27,6 +28,7 @@ func main() {
 	if err != nil {
 	}
 	file.Close()
+	bt := time.Now()
 	op.put(file.Name(), string(content))
 	op.put("1", string(content))
 	op.put("2", string(content))
@@ -36,31 +38,37 @@ func main() {
 		"0",
 		"0",
 	)
+	fmt.Println(time.Since(bt))
 }
 
-func SplitSubN(s string, n int) []string {
-	sub := ""
-	subs := []string{}
-
-	runes := bytes.Runes([]byte(s))
-	l := len(runes)
-	for i, r := range runes {
-		sub = sub + string(r)
-		if (i+1)%n == 0 {
-			subs = append(subs, sub)
-			sub = ""
-		} else if (i + 1) == l {
-			subs = append(subs, sub)
-		}
+func Chunks(s string, chunkSize int) []string {
+	if len(s) == 0 {
+		return nil
 	}
-
-	return subs
+	if chunkSize >= len(s) {
+		return []string{s}
+	}
+	var chunks []string = make([]string, 0, (len(s)-1)/chunkSize+1)
+	currentLen := 0
+	currentStart := 0
+	for i := range s {
+		if currentLen == chunkSize {
+			chunks = append(chunks, s[currentStart:i])
+			currentLen = 0
+			currentStart = i
+		}
+		currentLen++
+	}
+	chunks = append(chunks, s[currentStart:])
+	return chunks
 }
 
 func (op *Operator) put(key string, value string) {
-	op.client.PutAppend(key, "", "Put")
-	if len(value) > 10000 {
-		strings := SplitSubN(value, 10000)
+	if len(value) > 50000 {
+		tb := time.Now()
+		op.client.PutAppend(key, "", "Put")
+		strings := Chunks(value, 50000)
+		fmt.Println(time.Since(tb))
 		for _, myString := range strings {
 			op.client.PutAppend(key, myString, "Append")
 		}
