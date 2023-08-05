@@ -1,10 +1,7 @@
 package kvraft
 
-import "fmt"
-
 func (kv *KVServer) applier() {
 	for m := range kv.applyCh {
-		fmt.Println(m.CommandIndex)
 		if kv.Killed() {
 			return
 		}
