@@ -1,5 +1,7 @@
 package raft
 
+import "fmt"
+
 type AppendEntriesArgs struct {
 	// Your data here (2A, 2B).
 	Term         int
@@ -36,6 +38,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		rf.becomeFollower(args.Term)
 	}
 	rf.resetElection()
+	fmt.Println("reset peer")
 	if rf.state == Candidate {
 		rf.state = Follower
 	}
@@ -126,10 +129,12 @@ func (rf *Raft) sendAppendEntries(
 
 func (rf *Raft) leaderAppendEntries() {
 	rf.resetElection()
+	fmt.Println("reset leader")
 	lastLog := rf.log.lastEntry()
 	for peer := range rf.peers {
 		if rf.me == peer {
 			rf.resetElection()
+			fmt.Println("reset leader")
 			continue
 		}
 		nextIndex := rf.nextIndex[peer]
