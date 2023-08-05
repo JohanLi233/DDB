@@ -42,13 +42,14 @@ func main() {
 }
 
 func Chunks(s string, chunkSize int) []string {
-	if len(s) == 0 {
+	length := len(s)
+	if length == 0 {
 		return nil
 	}
-	if chunkSize >= len(s) {
+	if chunkSize >= length {
 		return []string{s}
 	}
-	var chunks []string = make([]string, 0, (len(s)-1)/chunkSize+1)
+	var chunks []string = make([]string, 0, (length-1)/chunkSize+1)
 	currentLen := 0
 	currentStart := 0
 	for i := range s {

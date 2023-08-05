@@ -4,7 +4,6 @@ import (
 	"DDB/client"
 	"DDB/kvraft"
 	"bufio"
-	"bytes"
 	"fmt"
 	"os"
 	"strings"
@@ -58,25 +57,6 @@ func main() {
 	}
 }
 
-func SplitSubN(s string, n int) []string {
-	sub := ""
-	subs := []string{}
-
-	runes := bytes.Runes([]byte(s))
-	l := len(runes)
-	for i, r := range runes {
-		sub = sub + string(r)
-		if (i+1)%n == 0 {
-			subs = append(subs, sub)
-			sub = ""
-		} else if (i + 1) == l {
-			subs = append(subs, sub)
-		}
-	}
-
-	return subs
-}
-
 type Operator struct {
 	client *kvraft.Clerk
 }
@@ -86,15 +66,6 @@ func (op *Operator) append(key string, value string) {
 }
 
 func (op *Operator) put(key string, value string) {
-	op.client.PutAppend(key, "", "Put")
-	if len(value) > 10000 {
-		strings := SplitSubN(value, 10000)
-		fmt.Println(strings)
-		for _, myString := range strings {
-			op.client.PutAppend(key, myString, "Append")
-		}
-		return
-	}
 	op.client.PutAppend(key, value, "Put")
 }
 
