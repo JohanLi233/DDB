@@ -15,8 +15,8 @@ func main() {
 	clients = append(clients, cl1)
 	cl2 := client.MakeClient("192.168.0.7")
 	clients = append(clients, cl2)
-	cl3 := client.MakeClient("192.168.0.177")
-	clients = append(clients, cl3)
+	//cl3 := client.MakeClient("192.168.0.177")
+	//clients = append(clients, cl3)
 	persister := raft.MakePersister()
 	me := 1
 	kv := kvraft.StartKVServer(clients, me, persister, -1)
