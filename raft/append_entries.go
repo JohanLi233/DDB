@@ -1,7 +1,5 @@
 package raft
 
-import "fmt"
-
 type AppendEntriesArgs struct {
 	// Your data here (2A, 2B).
 	Term         int
@@ -27,7 +25,6 @@ type AppendEntriesReply struct {
 // example RequestVote RPC handler.
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) error {
 	// Your code here (2A, 2B).
-	fmt.Println("receive append")
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	reply.Term = rf.currentTerm
@@ -95,7 +92,6 @@ func (rf *Raft) sendAppendEntries(
 	args *AppendEntriesArgs,
 	reply *AppendEntriesReply,
 ) {
-	fmt.Println("append")
 	ok := rf.peers[server].Call("Raft.AppendEntries", args, reply)
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
