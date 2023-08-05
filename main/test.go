@@ -3,10 +3,10 @@ package main
 import (
 	"DDB/client"
 	"DDB/kvraft"
+	"bytes"
 	"fmt"
 	"io"
 	"os"
-	"time"
 )
 
 func main() {
@@ -31,11 +31,42 @@ func main() {
 	op.put("1", string(content))
 	op.put("2", string(content))
 	op.put("3", string(content))
-	// op.put("4", string(content)+string(content)+string(content)+string(content)+string(content))
+	op.put("4", string(content)+string(content)+string(content)+string(content)+string(content))
 	op.put(
 		"0",
 		"0",
 	)
+}
+
+func SplitSubN(s string, n int) []string {
+	sub := ""
+	subs := []string{}
+
+	runes := bytes.Runes([]byte(s))
+	l := len(runes)
+	for i, r := range runes {
+		sub = sub + string(r)
+		if (i+1)%n == 0 {
+			subs = append(subs, sub)
+			sub = ""
+		} else if (i + 1) == l {
+			subs = append(subs, sub)
+		}
+	}
+
+	return subs
+}
+
+func (op *Operator) put(key string, value string) {
+	op.client.PutAppend(key, "", "Put")
+	if len(value) > 10000 {
+		strings := SplitSubN(value, 10000)
+		for _, myString := range strings {
+			op.client.PutAppend(key, myString, "Append")
+		}
+		return
+	}
+	op.client.PutAppend(key, value, "Put")
 }
 
 type Operator struct {
@@ -44,12 +75,6 @@ type Operator struct {
 
 func (op *Operator) append(key string, value string) {
 	op.client.PutAppend(key, value, "Append")
-}
-
-func (op *Operator) put(key string, value string) {
-	fmt.Println(len(value))
-	op.client.PutAppend(key, value, "Put")
-	time.Sleep(100 * time.Millisecond)
 }
 
 func (op *Operator) get(key string) string {

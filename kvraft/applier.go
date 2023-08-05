@@ -7,7 +7,7 @@ func (kv *KVServer) applier() {
 		}
 		kv.mu.Lock()
 		if m.SnapshotValid {
-			kv.ingestSnapshot(m.Snapshot)
+			// kv.ingestSnapshot(m.Snapshot)
 
 		} else {
 			op := m.Command.(*Op)
