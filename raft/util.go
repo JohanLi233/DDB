@@ -31,7 +31,7 @@ func min(a int, b int) int {
 }
 
 func randTime() time.Duration {
-	randTime := 2000 + rand.Int63()%300
+	randTime := 150 + rand.Int63()%300
 	return time.Duration(randTime) * time.Millisecond
 }
 

@@ -3,7 +3,6 @@ package kvraft
 import (
 	"crypto/rand"
 	"math/big"
-	"time"
 
 	"DDB/client"
 )
@@ -78,7 +77,6 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 				}
 			}
 		}
-		time.Sleep(100 * time.Millisecond)
 	}
 }
 
