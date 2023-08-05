@@ -238,7 +238,7 @@ func (rf *Raft) ticker() {
 			if rf.state == Leader {
 				rf.leaderAppendEntries()
 				rf.heartBeatTimer.Stop()
-				rf.heartBeatTimer.Reset(100 * time.Millisecond)
+				rf.heartBeatTimer.Reset(10 * time.Millisecond)
 			}
 			rf.mu.Unlock()
 		}
@@ -262,7 +262,7 @@ func Make(peers []*client.Client, me int,
 	rf.me = me
 
 	// Your initialization code here (2A, 2B, 2C).
-	rf.heartBeatTimer = time.NewTimer(100 * time.Millisecond)
+	rf.heartBeatTimer = time.NewTimer(10 * time.Millisecond)
 	rf.electionTimer = time.NewTimer(randTime())
 	rf.heartBeatTimer.Stop()
 	rf.applyCond = sync.NewCond(&rf.mu)

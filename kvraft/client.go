@@ -2,7 +2,6 @@ package kvraft
 
 import (
 	"crypto/rand"
-	"fmt"
 	"math/big"
 	"time"
 
@@ -69,7 +68,6 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args.ClerkId = ck.id
 	for {
 		for i := range ck.servers {
-			fmt.Println(args.Key)
 			serverId := (ck.leader + i) % len(ck.servers)
 			reply := PutAppendReply{}
 			ok := ck.servers[serverId].Call("KVServer.PutAppend", &args, &reply)
@@ -85,7 +83,6 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 }
 
 func (ck *Clerk) Put(key string, value string) {
-	fmt.Println(len(value))
 	ck.PutAppend(key, value, "Put")
 }
 func (ck *Clerk) Append(key string, value string) {

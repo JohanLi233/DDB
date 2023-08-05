@@ -66,6 +66,7 @@ func (op *Operator) append(key string, value string) {
 }
 
 func (op *Operator) put(key string, value string) {
+	fmt.Println(len(value))
 	op.client.PutAppend(key, value, "Put")
 }
 
