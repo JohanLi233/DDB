@@ -50,8 +50,8 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 		SnapshotTerm:  args.LastIncludedTerm,
 		SnapshotIndex: args.LastIncludedIndex,
 	}
-	rf.ch <- msg
 	fmt.Println(">>>>>>>>>>")
+	rf.ch <- msg
 	return nil
 }
 
