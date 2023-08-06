@@ -12,12 +12,12 @@ import (
 
 func main() {
 	clients := []*client.Client{}
-	cl1 := client.MakeClient("192.168.0.109")
+	cl1 := client.MakeClient("192.168.0.7", "1000")
+	// clients = append(clients, cl1)
+	// cl2 := client.MakeClient("192.168.0.7", "1001")
 	clients = append(clients, cl1)
-	cl2 := client.MakeClient("192.168.0.7")
+	cl2 := client.MakeClient("192.168.0.109", "1234")
 	clients = append(clients, cl2)
-	// cl3 := client.MakeClient("192.168.0.177")
-	// clients = append(clients, cl3)
 	client := kvraft.MakeClerk(clients)
 	op := Operator{}
 	op.client = client
