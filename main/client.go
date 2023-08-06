@@ -5,22 +5,41 @@ import (
 	"DDB/kvraft"
 	"bufio"
 	"fmt"
+	"net"
 	"os"
 	"strings"
 )
 
 func main() {
 	clients := []*client.Client{}
-	cl1 := client.MakeClient("192.168.0.109")
-	clients = append(clients, cl1)
-	cl2 := client.MakeClient("192.168.0.7")
-	clients = append(clients, cl2)
-	// cl3 := client.MakeClient("192.168.0.177")
-	// clients = append(clients, cl3)
+	reader := bufio.NewReader(os.Stdin)
+	for {
+		fmt.Println("-> ")
+		text, _ := reader.ReadString('\n')
+		text = strings.Replace(text, "\n", "", -1)
+		texts := strings.Split(text, " ")
+		if texts[0] == "done" {
+			fmt.Println("done")
+			break
+		}
+		if texts[0] == "a" {
+			if len(texts) < 2 {
+				fmt.Println("Need IP")
+				continue
+			}
+			if len(texts) < 3 {
+				fmt.Println("Need port")
+				continue
+			}
+			ip := texts[1]
+			port := texts[2]
+			cl := client.MakeClient(net.IP(ip), port)
+			clients = append(clients, cl)
+		}
+	}
 	client := kvraft.MakeClerk(clients)
 	op := Operator{}
 	op.client = client
-	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Println("-> ")
 		text, _ := reader.ReadString('\n')

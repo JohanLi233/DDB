@@ -1,7 +1,7 @@
 package kvraft
 
 import (
-	"fmt"
+	"log"
 	"sync"
 	"sync/atomic"
 
@@ -32,6 +32,8 @@ type KVServer struct {
 	// db       map[string]string
 	db       btree.Map[string, string]
 	notifier map[int64]*Notifier
+
+	port string
 }
 
 func (kv *KVServer) Get(args *GetArgs, reply *GetReply) error {
@@ -65,6 +67,7 @@ func StartKVServer(
 	me int,
 	persister *raft.Persister,
 	maxraftstate int,
+	port string,
 ) *KVServer {
 	// call labgob.Register on structures you want
 	// Go's RPC library to marshall/unmarshall.
@@ -74,6 +77,8 @@ func StartKVServer(
 	kv.me = me
 	kv.maxraftstate = maxraftstate
 	kv.mu = sync.Mutex{}
+
+	kv.port = port
 
 	// You may need initialization code here.
 
@@ -101,15 +106,16 @@ func StartKVServer(
 
 func (kvrf *KVServer) server(rf *raft.Raft) {
 	if rpc.Register(kvrf) != nil {
-		fmt.Println("Error")
+		log.Fatal("error")
 	}
 	if rpc.Register(rf) != nil {
-		fmt.Println("Error")
+		log.Fatal("error")
 	}
 	rpc.HandleHTTP()
-	l, e := net.Listen("tcp", ":1234")
+	port := ":" + kvrf.port
+	l, e := net.Listen("tcp", port)
 	if e != nil {
-		fmt.Println(e)
+		log.Fatal(e)
 	}
 	go http.Serve(l, nil)
 }
