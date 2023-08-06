@@ -5,7 +5,6 @@ import (
 	"DDB/kvraft"
 	"bufio"
 	"fmt"
-	"net"
 	"os"
 	"strings"
 )
@@ -33,7 +32,7 @@ func main() {
 			}
 			ip := texts[1]
 			port := texts[2]
-			cl := client.MakeClient(net.IP(ip), port)
+			cl := client.MakeClient(ip, port)
 			clients = append(clients, cl)
 		}
 	}

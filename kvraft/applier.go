@@ -43,7 +43,7 @@ func (kv *KVServer) apply(op *Op) {
 
 	case "Append":
 		previous, _ := kv.db.Get(op.Key)
-		kv.db.Set(op.Key, op.Value+previous)
+		kv.db.Set(op.Key, previous+op.Value)
 	}
 	kv.maxApplied[op.ClerkId] = op.OpId
 	kv.notify(op)

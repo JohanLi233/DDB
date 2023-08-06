@@ -2,16 +2,15 @@ package client
 
 import (
 	"log"
-	"net"
 	"net/rpc"
 )
 
 type Client struct {
-	Ip   net.IP
+	Ip   string
 	Port string
 }
 
-func MakeClient(ip net.IP, port string) *Client {
+func MakeClient(ip string, port string) *Client {
 	cl := &Client{}
 	cl.Ip = ip
 	cl.Port = port

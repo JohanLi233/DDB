@@ -14,16 +14,20 @@ import (
 	"DDB/raft"
 )
 
-func GetOutboundIP() net.IP {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
+func GetLocalIP() string {
+	addrs, err := net.InterfaceAddrs()
 	if err != nil {
-		log.Fatal(err)
+		return ""
 	}
-	defer conn.Close()
-
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-
-	return localAddr.IP
+	for _, address := range addrs {
+		// check the address type and if it is not a loopback the display it
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String()
+			}
+		}
+	}
+	return ""
 }
 
 func main() {
@@ -54,13 +58,12 @@ func main() {
 			}
 			ip := texts[1]
 			port := texts[2]
-			cl := client.MakeClient(net.IP(ip), port)
+			cl := client.MakeClient(ip, port)
 			clients = append(clients, cl)
 		}
 	}
 	me := len(clients)
-	fmt.Println(me)
-	cl := client.MakeClient(GetOutboundIP(), os.Args[1])
+	cl := client.MakeClient(GetLocalIP(), os.Args[1])
 	clients = append(clients, cl)
 	persister := raft.MakePersister()
 	kv := kvraft.StartKVServer(clients, me, persister, 0, os.Args[1])

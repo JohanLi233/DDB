@@ -14,7 +14,7 @@ type InitReply struct {
 
 func (rf *Raft) containPeer(cl *client.Client) bool {
 	for _, peer := range rf.peers {
-		if string(peer.Ip) == string(cl.Ip) {
+		if string(peer.Ip) == string(cl.Ip) && peer.Port == cl.Port {
 			return true
 		}
 	}
@@ -27,6 +27,7 @@ func (rf *Raft) Init(args *InitArgs, reply *InitReply) error {
 			rf.peers = append(rf.peers, peer)
 		}
 	}
+	rf.peers = args.Client
 	reply.Client = rf.peers
 	rf.matchIndex = make([]int, len(rf.peers))
 	rf.nextIndex = make([]int, len(rf.peers))
