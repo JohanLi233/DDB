@@ -65,16 +65,16 @@ func Chunks(s string, chunkSize int) []string {
 }
 
 func (op *Operator) put(key string, value string) {
-	// if len(value) > 50000 {
-	// 	tb := time.Now()
-	// 	op.client.PutAppend(key, "", "Put")
-	// 	strings := Chunks(value, 50000)
-	// 	fmt.Println(time.Since(tb))
-	// 	for _, myString := range strings {
-	// 		op.client.PutAppend(key, myString, "Append")
-	// 	}
-	// 	return
-	// }
+	if len(value) > 50000 {
+		tb := time.Now()
+		op.client.PutAppend(key, "", "Put")
+		strings := Chunks(value, 50000)
+		fmt.Println(time.Since(tb))
+		for _, myString := range strings {
+			op.client.PutAppend(key, myString, "Append")
+		}
+		return
+	}
 	op.client.PutAppend(key, value, "Put")
 }
 

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const maxWaitTime = 200000 * time.Millisecond
+const maxWaitTime = 500 * time.Millisecond
 
 type Notifier struct {
 	done              sync.Cond
