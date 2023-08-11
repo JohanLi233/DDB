@@ -165,10 +165,26 @@ func (rf *Raft) checkLeaderCommit() {
 			count[N] += 1
 		}
 	}
+	values := 0
+	updated := false
+	var smallestBiggerKey int
+	init := false
 	for key, value := range count {
+		values += value
+		if !init {
+			init = true
+			smallestBiggerKey = key
+		}
+		if key < smallestBiggerKey {
+			smallestBiggerKey = key
+		}
 		if (value+1)*2 > len(rf.peers) && key > rf.commitIndex {
+			updated = true
 			rf.commitIndex = key
 			rf.apply()
 		}
+	}
+	if !updated && (values+1)*2 > len(rf.peers) {
+		rf.commitIndex = smallestBiggerKey
 	}
 }
