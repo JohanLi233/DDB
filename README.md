@@ -1,2 +1,2 @@
 # DDB
-## Toy distributed database system
+## Toy distributed KV storage system
