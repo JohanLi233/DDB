@@ -12,6 +12,8 @@ import (
 func main() {
 	clients := []*client.Client{}
 	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Welcome to DDB client!")
+	fmt.Println("Please input the IP and port of the servers, use 'a IP port' to add server, use 'done' to finish.")
 	for {
 		fmt.Println("-> ")
 		text, _ := reader.ReadString('\n')

@@ -37,7 +37,9 @@ func main() {
 	}
 	clients := []*client.Client{}
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Add existing servers")
+	fmt.Println("Welcome to DDB")
+	fmt.Println("Type 'a IP port' to add existing servers, use 'done' to finish adding servers.")
+
 	for {
 		fmt.Println("-> ")
 		text, _ := reader.ReadString('\n')
@@ -60,10 +62,14 @@ func main() {
 			port := texts[2]
 			cl := client.MakeClient(ip, port)
 			clients = append(clients, cl)
+		} else {
+			fmt.Println("Invalid command")
 		}
 	}
 	me := len(clients)
-	cl := client.MakeClient(GetLocalIP(), os.Args[1])
+	localIP := GetLocalIP()
+	fmt.Println("Local IP:", localIP)
+	cl := client.MakeClient(localIP, os.Args[1])
 	clients = append(clients, cl)
 	persister := raft.MakePersister()
 	kv := kvraft.StartKVServer(clients, me, persister, 0, os.Args[1])
